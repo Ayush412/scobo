@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "718884424301",
+    "firebase_url": "https://scobo-26c16.firebaseio.com",
+    "project_id": "scobo-26c16",
+    "storage_bucket": "scobo-26c16.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:718884424301:android:f392e0c04a1a379454cd64",
+        "android_client_info": {
+          "package_name": "com.example.scobo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "718884424301-5scffcpt9c9bfv0qrcbgciorofcru4qf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzyWGuOJYSQQVRzna1obtow69BWQt32fM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "718884424301-5scffcpt9c9bfv0qrcbgciorofcru4qf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

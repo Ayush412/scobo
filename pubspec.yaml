@@ -32,12 +32,34 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  rxdart:
+  firebase_auth:
+  cloud_firestore:
+  firebase_messaging: 
+  flutter_launcher_icons:
+  shared_preferences:
+  intro_slider:
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
+  assets:
+    - control.jpg
+    - bot_connect.png
+    - doctors.jpg
+    - bot_error.png
+    - bot_good.png
+    - bot_moving.png
+    - talk.jpg
+    - logo.png
+    - scobo_logo.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

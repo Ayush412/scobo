@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'package:scobo/bloc/login/login_bloc.dart';
 import 'package:scobo/navigate.dart';
+import 'package:scobo/screens/home.dart';
 import 'package:scobo/screens/intro.dart';
 import 'package:scobo/screens/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:scobo/sharedpref.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() {
   runApp(Home());
@@ -36,6 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    Firebase.initializeApp();
     timer = new Timer(const Duration(seconds: 2), () {
       afterSplash();
     });
@@ -46,16 +49,18 @@ class _MyHomePageState extends State<MyHomePage> {
     email = prefs.getString('email');
     open = prefs.getBool('open');
     if(email==null){
+      print('no email');
       if(open==null || open==false)
         navigate(context, Intro());
       else{
-        await loginBloc.getData();
         navigate(context, Login());
       }
     }
-    else
+    else{
       print(email);
-      //navigate(context, mainScreen )
+      await loginBloc.getData();
+      navigate(context, HomeScreen());
+    }
   }
 
   @override

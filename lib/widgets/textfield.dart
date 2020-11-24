@@ -10,7 +10,7 @@ textField(Stream stream, Function onChanged, String hintText, String labelText, 
         onChanged: onChanged,
         obscureText: obscure,
         decoration: InputDecoration(
-          hintText: hintText,
+          //hintText: hintText,
           errorText: snapshot.error,
           labelText: labelText,
           prefixIcon: icon,

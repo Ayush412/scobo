@@ -54,7 +54,7 @@ class LoginBloc with ValidateCredentials implements BaseBloc{
 
   getUserData(String emailID) async{
     Map<String, dynamic> tempMap = Map<String, dynamic>();
-    await Firestore.instance.collection('users').document(emailID).get().then((DocumentSnapshot snapshot){
+    await FirebaseFirestore.instance.collection('users').doc(emailID).get().then((DocumentSnapshot snapshot){
       tempMap = snapshot.data();
     });
     if(tempMap==null)

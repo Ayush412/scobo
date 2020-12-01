@@ -6,7 +6,6 @@ import 'package:scobo/screens/intro.dart';
 import 'package:scobo/screens/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
-import 'package:scobo/sharedpref.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() {
@@ -58,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     else{
       print(email);
-      await loginBloc.getData();
+      await loginBloc.getUserData(email);
       navigate(context, HomeScreen());
     }
   }
@@ -89,7 +88,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     timer.cancel();
   }

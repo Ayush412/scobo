@@ -1,10 +1,22 @@
 import 'dart:async';
+import 'package:rxdart/rxdart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:scobo/bloc/bloc.dart';
 
-class Connection{
+class Connection implements BaseBloc{
+
+  //CONTROLLERS
+  final connectionController = BehaviorSubject<String>();
+  final batteryController = BehaviorSubject<int>();
+
+  //STREAMS
+  Sink<String> get connectionIn => connectionController.sink;
+  Sink<int> get batteryIn => batteryController.sink;
+
+  //SINKS
+  Stream<String> get connectionOut => connectionController.stream;
+  Stream<int> get batteryOut => batteryController.stream;
+
   Timer timer;
 
   checkConnection() async{
@@ -20,10 +32,26 @@ class Connection{
       if (value['status'].toDate().isAfter(date))
         con = true;
     });
-    if (con)
+    if (con){
       print('good');
-    else
+      connectionIn.add("bot_good.png");
+    }
+    else{
       print('bad');
+      connectionIn.add("bot_error.png");
+    }
+  }
+
+  batteryStatus(){
+    FirebaseFirestore.instance.collection('scobo').doc('bot').snapshots().listen((event) {
+      batteryIn.add(event['battery']);
+    });
+  }
+
+  @override
+  void dispose() {
+    connectionController.close();
+    batteryController.close();
   }
 
 }

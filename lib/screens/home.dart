@@ -5,6 +5,7 @@ import 'package:scobo/widgets/index_row.dart';
 import 'package:battery_indicator/battery_indicator.dart';
 import 'package:scobo/widgets/dialog.dart';
 import 'package:scobo/widgets/custom_drawer.dart';
+import 'package:scobo/widgets/dash_row.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -20,6 +21,10 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     connection.connectionIn.add("bot_connect.png");
+    connection.bedIn.add(null);
+    connection.dayIn.add(null);
+    connection.bedStatus();
+    connection.dayStatus();
     connection.checkConnection();
     connection.batteryStatus();
   }
@@ -35,10 +40,6 @@ class _HomeScreenState extends State<HomeScreen> {
           extendBodyBehindAppBar: true,
           drawer: customDrawer(context),
           appBar: AppBar(
-            centerTitle: true,
-            title: Text("DASHBOARD", 
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)
-            ),
             elevation: 0,
             backgroundColor: Colors.transparent,
             leading: IconButton(
@@ -59,7 +60,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 100),
+                      padding: const EdgeInsets.only(top: 40),
+                      child: Text("DASHBOARD", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.white)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 50),
                       child: CircleAvatar(
                         radius: 40,
                         backgroundImage: AssetImage("avatar_doc.jpg"),
@@ -68,6 +73,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: const EdgeInsets.all(10),
                       child: Text(loginBloc.userMap['Name'], style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18))
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20, left: 20, right:20, bottom: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          dashRow(context, "BEDS AIDED", Icons.hotel, connection.bedOut),
+                          SizedBox(width:20),
+                          dashRow(context, "DAYS ACTIVE", Icons.calendar_today, connection.dayOut),
+                        ],
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
@@ -93,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         }
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(10),
                                         child: Container(
                                             width: MediaQuery.of(context).size.width,
                                             child: Column(

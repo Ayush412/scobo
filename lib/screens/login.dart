@@ -66,27 +66,31 @@ class _LoginState extends State<Login> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Padding(padding: const EdgeInsets.only(top: 130.0),
+                    Padding(padding: const EdgeInsets.only(top: 60.0),
                     child: Image.asset('scobo_logo.png', height: MediaQuery.of(context).size.height/5.5),
                   ),
-                    Container(
-                      width: MediaQuery.of(context).size.width/1.3,
-                      padding: EdgeInsets.only(left:10.0, right: 10, top: 50),
-                        child: textField(loginBloc.emailCheck, loginBloc.emailChanged, 'Email', 'Email', Icon(Icons.person), TextInputType.emailAddress, false)
-                    ),
-                    Container(
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15),
+                    child: Text("SCOBO", style: TextStyle(color: Colors.blue[600], fontWeight: FontWeight.bold, fontSize: 25)),
+                  ),
+                  Container(
                     width: MediaQuery.of(context).size.width/1.3,
-                    padding: EdgeInsets.only(left:10.0, right: 10, top: 30),
-                      child: textField(loginBloc.passCheck, loginBloc.passChanged, 'Password', 'Password', Icon(Icons.lock), TextInputType.text, true)
+                    padding: EdgeInsets.only(left:10.0, right: 10, top: 50),
+                      child: textField(loginBloc.emailCheck, loginBloc.emailChanged, 'Email', 'Email', Icon(Icons.person), TextInputType.emailAddress, false)
+                  ),
+                  Container(
+                  width: MediaQuery.of(context).size.width/1.3,
+                  padding: EdgeInsets.only(left:10.0, right: 10, top: 30),
+                    child: textField(loginBloc.passCheck, loginBloc.passChanged, 'Password', 'Password', Icon(Icons.lock), TextInputType.text, true)
                   ),
                    Padding(
-                    padding: const EdgeInsets.only(top: 70),
+                    padding: const EdgeInsets.only(top: 90),
                     child: StreamBuilder(
                       stream: loginBloc.credentialsCheck,
                       builder: (context, snap) => RaisedButton(
                         onPressed: snap.hasData? (){checkLogin();} : () => scaffoldKey.currentState.showSnackBar(ShowSnack('Check all fields', Colors.black, Colors.orange)),
                         textColor: Colors.white,
-                        color: Colors.black,
+                        color: Color(0xff0f459d),
                         shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                         child: Container(
                           width: MediaQuery.of(context).size.width/1.6,
@@ -114,7 +118,7 @@ class _LoginState extends State<Login> {
                 alignment: Alignment.bottomCenter,
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
-                  child: Text("SCOBO, Symbiosis Institue of Technology", style: TextStyle(color: Colors.blue[300]),),
+                  child: Text("SCOBO, Symbiosis Institue of Technology", style: TextStyle(color: Colors.blue[600]),),
                 ),
               ),
             ]

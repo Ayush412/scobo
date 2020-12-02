@@ -25,8 +25,8 @@ class _IntroState extends State<Intro> {
         title: "TELL SCOBO WHAT TO DO",
         backgroundColor: Colors.white,
         description: "Give direction instructions to SCOBO and track its movements",
-        styleTitle: TextStyle(color: Colors.blue[300], fontSize: 28, fontWeight: FontWeight.bold),
-        styleDescription: TextStyle(color: Colors.blue[200], fontSize: 20),
+        styleTitle: TextStyle(color: Colors.blue[600], fontSize: 28, fontWeight: FontWeight.bold),
+        styleDescription: TextStyle(color: Colors.blue[300], fontSize: 20),
         pathImage: "control.jpg",
         heightImage: 300
       )
@@ -36,8 +36,8 @@ class _IntroState extends State<Intro> {
         title: "CHECK SCOBO'S STATUS",
         backgroundColor: Colors.white,
         description: "Get updates on SCOBO's connectivity and availability",
-        styleTitle: TextStyle(color: Colors.blue[300], fontSize: 28, fontWeight: FontWeight.bold),
-        styleDescription: TextStyle(color: Colors.blue[200], fontSize: 20),
+        styleTitle: TextStyle(color: Colors.blue[600], fontSize: 28, fontWeight: FontWeight.bold),
+        styleDescription: TextStyle(color: Colors.blue[300], fontSize: 20),
         pathImage: "talk.jpg",
         heightImage: 300
       )
@@ -46,8 +46,8 @@ class _IntroState extends State<Intro> {
       new Slide(
         backgroundColor: Colors.white,
         description: "The SCOBO team thanks all healthcare workers for their service",
-        styleTitle: TextStyle(color: Colors.blue[300], fontSize: 28, fontWeight: FontWeight.bold),
-        styleDescription: TextStyle(color: Colors.blue[200], fontSize: 20),
+        styleTitle: TextStyle(color: Colors.blue[600], fontSize: 28, fontWeight: FontWeight.bold),
+        styleDescription: TextStyle(color: Colors.blue[300], fontSize: 20),
         pathImage: "doctors.jpg",
         heightImage: 300
       )
@@ -66,10 +66,10 @@ class _IntroState extends State<Intro> {
       isShowSkipBtn: false,
       isShowNextBtn: false,
       slides: slides,
-      styleNameDoneBtn: TextStyle(color: Colors.blue[300], fontWeight: FontWeight.bold, fontSize: 20),
+      styleNameDoneBtn: TextStyle(color: Colors.blue[600], fontWeight: FontWeight.bold, fontSize: 20),
       styleNamePrevBtn: TextStyle(color: Colors.blue[300], fontWeight: FontWeight.bold, fontSize: 20),
       colorDot: Colors.blue[100],
-      colorActiveDot: Colors.blue[300],
+      colorActiveDot: Colors.blue[600],
       onDonePress: onDonePress,
     );
   }

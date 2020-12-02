@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Image.asset("scobo_logo.png", height: 100),
                 Padding(
                   padding: const EdgeInsets.only(top:30),
-                  child: Text("SCOBO", style: TextStyle(fontSize: 25, color: Colors.blue[200], fontWeight: FontWeight.bold))
+                  child: Text("SCOBO", style: TextStyle(fontSize: 25, color: Colors.blue[600], fontWeight: FontWeight.bold))
                 )
               ],
             ),

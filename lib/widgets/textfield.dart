@@ -4,7 +4,7 @@ textField(Stream stream, Function onChanged, String hintText, String labelText, 
   return StreamBuilder(
     stream: stream,
     builder: (context, snapshot) => Theme(
-      data: ThemeData(primaryColor: Colors.black),
+      data: ThemeData(primaryColor: Colors.blue[600]),
       child: TextField(
         keyboardType: keyboard,
         onChanged: onChanged,

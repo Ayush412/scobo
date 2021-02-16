@@ -33,6 +33,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   rxdart:
+  wifi:
   firebase_core:
   firebase_auth:
   cloud_firestore:
@@ -40,10 +41,18 @@ dev_dependencies:
   firebase_messaging: 
   flutter_launcher_icons:
   shared_preferences:
+  persistent_bottom_nav_bar:
   intro_slider:
   google_fonts:
+  colorful_safe_area:
+  font_awesome_flutter:
+  flutter_spinkit:
   battery_indicator:
     path: ./battery_indicator-moded/
+  curved_navigation_bar:
+  ros_nodes:
+    git:
+      url: git://github.com/Sashiri/ros_nodes.git
 
 flutter_icons:
   android: "launcher_icon"

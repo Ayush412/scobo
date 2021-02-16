@@ -1,0 +1,52 @@
+Date : 2021-02-15 21:07:04
+Directory : /Users/fatboy/Documents/flutter projects/scobo/lib
+Total : 23 files,  1204 codes, 21 comments, 117 blanks, all 1342 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Dart     |         23 |      1,204 |         21 |        117 |      1,342 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                               | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                  |         23 |      1,204 |         21 |        117 |      1,342 |
+| bloc                                                                               |          5 |        237 |         13 |         49 |        299 |
+| bloc/ROS                                                                           |          1 |         67 |          4 |         14 |         85 |
+| bloc/login                                                                         |          2 |         88 |          3 |         15 |        106 |
+| screens                                                                            |          6 |        556 |          3 |         35 |        594 |
+| widgets                                                                            |          9 |        304 |          4 |         19 |        327 |
++------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                           | language | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| /Users/fatboy/Documents/flutter projects/scobo/lib/bloc/ROS/ros_bloc.dart          | Dart     |         67 |          4 |         14 |         85 |
+| /Users/fatboy/Documents/flutter projects/scobo/lib/bloc/bloc.dart                  | Dart     |         18 |          3 |          8 |         29 |
+| /Users/fatboy/Documents/flutter projects/scobo/lib/bloc/connection.dart            | Dart     |         64 |          3 |         12 |         79 |
+| /Users/fatboy/Documents/flutter projects/scobo/lib/bloc/login/login_bloc.dart      | Dart     |         64 |          3 |         11 |         78 |
+| /Users/fatboy/Documents/flutter projects/scobo/lib/bloc/login/login_validator.dart | Dart     |         24 |          0 |          4 |         28 |
+| /Users/fatboy/Documents/flutter projects/scobo/lib/main.dart                       | Dart     |         84 |          1 |         11 |         96 |
+| /Users/fatboy/Documents/flutter projects/scobo/lib/navigate.dart                   | Dart     |          7 |          0 |          1 |          8 |
+| /Users/fatboy/Documents/flutter projects/scobo/lib/screens/controller.dart         | Dart     |        122 |          1 |          9 |        132 |
+| /Users/fatboy/Documents/flutter projects/scobo/lib/screens/dashboard.dart          | Dart     |        148 |          0 |          3 |        151 |
+| /Users/fatboy/Documents/flutter projects/scobo/lib/screens/home.dart               | Dart     |         80 |          1 |          8 |         89 |
+| /Users/fatboy/Documents/flutter projects/scobo/lib/screens/intro.dart              | Dart     |         69 |          1 |          6 |         76 |
+| /Users/fatboy/Documents/flutter projects/scobo/lib/screens/login.dart              | Dart     |        124 |          0 |          6 |        130 |
+| /Users/fatboy/Documents/flutter projects/scobo/lib/screens/map.dart                | Dart     |         13 |          0 |          3 |         16 |
+| /Users/fatboy/Documents/flutter projects/scobo/lib/sharedpref.dart                 | Dart     |         16 |          0 |          2 |         18 |
+| /Users/fatboy/Documents/flutter projects/scobo/lib/widgets/circular_indicator.dart | Dart     |         14 |          0 |          2 |         16 |
+| /Users/fatboy/Documents/flutter projects/scobo/lib/widgets/custom_drawer.dart      | Dart     |         63 |          0 |          3 |         66 |
+| /Users/fatboy/Documents/flutter projects/scobo/lib/widgets/dash_row.dart           | Dart     |         42 |          0 |          1 |         43 |
+| /Users/fatboy/Documents/flutter projects/scobo/lib/widgets/dialog.dart             | Dart     |         16 |          0 |          1 |         17 |
+| /Users/fatboy/Documents/flutter projects/scobo/lib/widgets/graph.dart              | Dart     |          0 |          0 |          1 |          1 |
+| /Users/fatboy/Documents/flutter projects/scobo/lib/widgets/index_row.dart          | Dart     |         15 |          0 |          1 |         16 |
+| /Users/fatboy/Documents/flutter projects/scobo/lib/widgets/joystick.dart           | Dart     |        123 |          3 |          8 |        134 |
+| /Users/fatboy/Documents/flutter projects/scobo/lib/widgets/snack.dart              | Dart     |         11 |          0 |          1 |         12 |
+| /Users/fatboy/Documents/flutter projects/scobo/lib/widgets/textfield.dart          | Dart     |         20 |          1 |          1 |         22 |
+| Total                                                                              |          |      1,204 |         21 |        117 |      1,342 |
++------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

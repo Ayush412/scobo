@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scobo/bloc/connection.dart';
 import 'package:scobo/screens/controller.dart';
+import 'package:scobo/screens/map_screen.dart';
 import 'package:scobo/widgets/dialog.dart';
 import 'package:scobo/bloc/ROS/ros_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -33,6 +34,12 @@ class _HomeScreenState extends State<HomeScreen> {
         activeColor: Colors.blue[400],
         inactiveColor: Colors.grey[600],
       ),
+      PersistentBottomNavBarItem(
+        icon: Icon(FontAwesomeIcons.compass),
+        title: ("Navigation"),
+        activeColor: Colors.blue[400],
+        inactiveColor: Colors.grey[600],
+      ),
     ];
   }
 
@@ -40,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return [
       Dahsboard(),
       Controller(),
+      MapScreen(),
     ];
   }
 
@@ -56,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
     connection.checkConnection();
     connection.batteryStatus();
     rosBloc.subscribeRosTopics();
-    }
+  }
 
   @override
   Widget build(BuildContext context) {

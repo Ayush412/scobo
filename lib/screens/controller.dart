@@ -22,8 +22,9 @@ class _ControllerState extends State<Controller> {
 
   onRefresh() async{
     bloc.loadingStatusIn.add(true);
-    await Future.delayed(Duration(seconds: 3));
     await rosBloc.subscribeRosTopicCamera();
+    await rosBloc.subscribeRosTopicVelocity();
+    await Future.delayed(Duration(seconds: 3));
     bloc.loadingStatusIn.add(false);
   }
 

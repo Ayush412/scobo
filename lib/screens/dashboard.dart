@@ -29,7 +29,7 @@ class _DahsboardState extends State<Dahsboard> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 25),
-                  child: Text("DASHBOARD", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.white)),
+                  child: Text("STATS", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.white)),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 50),
@@ -118,7 +118,7 @@ class _DahsboardState extends State<Dahsboard> {
                                             BatteryIndicator(
                                               style: BatteryIndicatorStyle.skeumorphism,
                                               showPercentSlide: true,
-                                              battery: battery.data,
+                                              battery: battery.data == null ? 0 : battery.data,
                                               showPercentNum: false,
                                               size: 40,
                                             ),

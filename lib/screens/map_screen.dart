@@ -7,6 +7,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:scobo/widgets/circular_indicator.dart';
 import 'package:scobo/bloc/bloc.dart';
 import 'package:scobo/widgets/mapPainter.dart';
+import 'package:scobo/widgets/waypointsShelf.dart';
 
 class MapScreen extends StatefulWidget {
   @override
@@ -19,16 +20,18 @@ class _MapScreenState extends State<MapScreen> {
 
   onRefresh() async{
     bloc.loadingStatusIn.add(true);
+    await rosBloc.subscribeRosTopicMap();
+    await rosBloc.subscribeRosTopicOdometry();
     await Future.delayed(Duration(seconds: 3));
-    await rosBloc.subscirbeRosTopicMap();
     bloc.loadingStatusIn.add(false);
+    rosBloc.addWaypoints();
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    rosBloc.subscirbeRosTopicMap();
+    rosBloc.subscribeRosTopicMap();
   }
   
   @override
@@ -92,6 +95,9 @@ class _MapScreenState extends State<MapScreen> {
                         return Text('no map');
                       },
                     ),
+                  ),
+                  Padding(padding: const EdgeInsets.only(top: 100),
+                    child: WaypointShelf(),
                   )
                 ],
               ),

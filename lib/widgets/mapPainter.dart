@@ -82,24 +82,24 @@ class MapPainter extends CustomPainter{
         final resolution = 0.05;
 
         //draw waypoints
-        // var miliseconds = DateTime.now().millisecondsSinceEpoch;
-        // var animationSizePercent = (miliseconds % 1700) / 1700;
-        // for (var item in waypoints.waypoints) {
-        //   canvas.save();
-        //   {
-        //     canvas.translate(item.x / resolution, item.y / resolution);
-        //     canvas.drawPath(
-        //         drawNSide(
-        //           6,
-        //           waypointMinSize +
-        //               (animationSizePercent *
-        //                   (waypointRadiusMax - waypointMinSize)),
-        //         ),
-        //         waypointPaint
-        //           ..color = item.color.withOpacity(animationSizePercent));
-        //     canvas.restore();
-        //   }
-        // }
+        var miliseconds = DateTime.now().millisecondsSinceEpoch;
+        var animationSizePercent = (miliseconds % 1700) / 1700;
+        for (var item in waypoints.waypoints) {
+          canvas.save();
+          {
+            canvas.translate(item.x / resolution, item.y / resolution);
+            canvas.drawPath(
+                drawNSide(
+                  6,
+                  waypointMinSize +
+                      (animationSizePercent *
+                          (waypointRadiusMax - waypointMinSize)),
+                ),
+                waypointPaint
+                  ..color = item.color.withOpacity(animationSizePercent));
+            canvas.restore();
+          }
+        }
         double robotPositionX = (robotOdom.pose.pose.position.x) / resolution;
         double robotPositionY = (robotOdom.pose.pose.position.y) / resolution;
 
@@ -296,19 +296,24 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
         child: StreamBuilder(
           stream: rosBloc.mapBlipsOut,
           builder: (context, list) {
-            return CustomPaint(
-              painter: MapPainter(
-                  map: widget.map,
-                  waveRadius: waveRadius,
-                  waveAccentColor: Theme.of(context).accentColor,
-                  waveColor: Theme.of(context).brightness == Brightness.light
-                      ? Colors.amberAccent
-                      : Colors.cyanAccent,
-                  robotOdom: list.data[0],
-                  waypoints: list.data[1],
-                  activeWaypoint: rosBloc.activeWaypoint,
-              )
-            );
+            if(list==null || !list.hasData)
+              return Container(
+                child: Text('Waiting'),
+              );
+            else
+              return CustomPaint(
+                painter: MapPainter(
+                    map: widget.map,
+                    waveRadius: waveRadius,
+                    waveAccentColor: Theme.of(context).accentColor,
+                    waveColor: Theme.of(context).brightness == Brightness.light
+                        ? Colors.amberAccent
+                        : Colors.cyanAccent,
+                    robotOdom: list.data[0],
+                    waypoints: list.data[1],
+                    activeWaypoint: rosBloc.activeWaypoint,
+                )
+              );
           }
         ),
       ),

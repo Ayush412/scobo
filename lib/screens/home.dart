@@ -23,20 +23,20 @@ class _HomeScreenState extends State<HomeScreen> {
   List<PersistentBottomNavBarItem> navbarItems(){
     return [
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.home),
-        title: ("Dashboard"),
+        icon: Icon(Icons.graphic_eq_rounded),
+        title: ("Stats"),
         activeColor: Colors.blue[400],
         inactiveColor: Colors.grey[600],
       ),
       PersistentBottomNavBarItem(
         icon: Icon(FontAwesomeIcons.gamepad),
-        title: ("Controller"),
+        title: ("Manual Control"),
         activeColor: Colors.blue[400],
         inactiveColor: Colors.grey[600],
       ),
       PersistentBottomNavBarItem(
         icon: Icon(FontAwesomeIcons.compass),
-        title: ("Navigation"),
+        title: ("Autonomous"),
         activeColor: Colors.blue[400],
         inactiveColor: Colors.grey[600],
       ),
@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
         key: scaffoldKey,
         home: PersistentTabView(
           context,
-          controller: controller,
+          controller: controller, 
           confineInSafeArea: true,
           resizeToAvoidBottomInset: true,
           hideNavigationBarWhenKeyboardShows: true,

@@ -21,23 +21,27 @@ class RosBloc implements BaseBloc{
   BehaviorSubject<List> velocityController = BehaviorSubject();
   BehaviorSubject<Int8List> mapController = BehaviorSubject();
   BehaviorSubject<List<dynamic>> mapBlipsController = BehaviorSubject();
+  BehaviorSubject<WaypointList> waypointsController = BehaviorSubject();
 
   //SINKS
   Sink<Uint8List> get imageIn => imageController.sink;
   Sink<List> get velocityIn => velocityController.sink;
   Sink<Int8List> get mapIn => mapController.sink;
   Sink<List<dynamic>> get mapBlipsIn => mapBlipsController.sink;
+  Sink<WaypointList> get waypointsIn => waypointsController.sink;
 
   //STREAMS
   Stream<Uint8List> get imageOut => imageController.stream;
   Stream<List> get velocityOut => velocityController.stream;
   Stream<Int8List> get mapOut => mapController.stream;
   Stream<List<dynamic>> get mapBlipsOut => mapBlipsController.stream;
+  Stream<WaypointList> get waypointsOut => waypointsController.stream;
 
   final cameraImage = SensorMsgsCompressedImage();
   final velocityPublished = GeometryMsgsTwist();
   final mapImage = NavMsgsOccupancyGrid();
   var odometry = NavMsgsOdometry();
+  final poseStamped = PoseStamped();
 
   //ROS TOPICS
   RosConfig rosConfig;
@@ -46,9 +50,13 @@ class RosBloc implements BaseBloc{
   RosTopic<GeometryMsgsTwist> rosTopicVelocity;
   RosTopic<NavMsgsOccupancyGrid> rosTopicMap;
   RosTopic<NavMsgsOdometry> rosTopicOdometry;
+  RosTopic<PoseStamped> rosTopicNavigation;
 
   Waypoint activeWaypoint;
-  WaypointList waypointList;
+  WaypointList waypointList = WaypointList([
+            Waypoint(name: 'Bed 1', color: Colors.green, x: 1.4, y: -1.3),
+            Waypoint(name: 'Bed 2', color: Colors.red, x: 0.8, y: -1.0)
+          ]);
 
   initialiseRos() async{
     String ip = await Wifi.ip;
@@ -66,6 +74,7 @@ class RosBloc implements BaseBloc{
     rosTopicVelocity = RosTopic('cmd_vel', velocityPublished);
     rosTopicMap = RosTopic('map', mapImage);
     rosTopicOdometry = RosTopic('odom', odometry);
+    rosTopicNavigation = RosTopic('move_base_simple/goal', poseStamped);
   }
 
   subscribeRosTopics() async{
@@ -74,6 +83,13 @@ class RosBloc implements BaseBloc{
     await subscribeRosTopicCamera();
     await subscribeRosTopicVelocity();
     await subscribeRosTopicOdometry();
+    await subscribeRosTopicMap();
+    await publishRosTopicNavigation();
+    addWaypoints();
+  }
+
+  addWaypoints(){
+    waypointsIn.add(waypointList);
   }
 
   subscribeRosTopicCamera() async{
@@ -90,9 +106,7 @@ class RosBloc implements BaseBloc{
       mapBlipsIn.add(
         [
           odometry, 
-          WaypointList([
-            Waypoint(name: 'K', color: Colors.green, x: 6, y: -1)
-          ])
+          waypointList
         ]
       );
     });
@@ -108,11 +122,17 @@ class RosBloc implements BaseBloc{
     });
   }
 
-  subscirbeRosTopicMap() async{
+  subscribeRosTopicMap() async{
     var subMapImage = await rosClient.subscribe(rosTopicMap);
     subMapImage.onValueUpdate.listen((event) {
       mapIn.add(event.data);
     });
+  }
+
+  publishRosTopicNavigation() async{
+    await rosClient.unregister(rosTopicNavigation);
+    var pubNav = await rosClient.register(rosTopicNavigation,
+    publishInterval: Duration(milliseconds: 500));
   }
 
   Future<ui.Image> getMapAsImage(){
@@ -126,12 +146,25 @@ class RosBloc implements BaseBloc{
     return completer.future;
   }
 
+  setActiveWaypoint(Waypoint newWaypoint){
+    if(activeWaypoint != newWaypoint){
+      print('x:${newWaypoint.x}\ty:${newWaypoint.y}');
+      activeWaypoint = newWaypoint;
+      rosTopicNavigation.msg
+        ..pose.orientation.w = 0
+        ..header.frame_id = 'map'
+        ..pose.position.x = newWaypoint.x
+        ..pose.position.y = newWaypoint.y;
+    }
+  }
+
   @override
   void dispose() {
     imageController.close();
     velocityController.close();
     mapController.close();
     mapBlipsController.close();
+    waypointsController.close();
   }
 
 }

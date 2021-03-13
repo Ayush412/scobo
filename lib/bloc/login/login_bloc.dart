@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:rxdart/rxdart.dart';
+import 'package:scobo/bloc/ROS/ros_bloc.dart';
 import '../bloc.dart';
 import 'login_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -62,6 +63,7 @@ class LoginBloc with ValidateCredentials implements BaseBloc{
     else{
       userMap.putIfAbsent('emailID', () => emailID);
       userMap = tempMap;
+      rosBloc.botIP = userMap['bot ip'];
       fbm.subscribeToTopic(userMap['ID']);
     }
   }

@@ -81,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
           hideNavigationBarWhenKeyboardShows: true,
           items: navbarItems(),
           screens: screens(),
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.white,
           handleAndroidBackButtonPress: true,
           popAllScreensOnTapOfSelectedTab: true,
           popActionScreens: PopActionScreensType.all,

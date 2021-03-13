@@ -42,6 +42,7 @@ class RosBloc implements BaseBloc{
   final mapImage = NavMsgsOccupancyGrid();
   var odometry = NavMsgsOdometry();
   final poseStamped = PoseStamped();
+  String botIP;
 
   //ROS TOPICS
   RosConfig rosConfig;
@@ -55,14 +56,15 @@ class RosBloc implements BaseBloc{
   Waypoint activeWaypoint;
   WaypointList waypointList = WaypointList([
             Waypoint(name: 'Bed 1', color: Colors.green, x: 1.4, y: -1.3),
-            Waypoint(name: 'Bed 2', color: Colors.red, x: 0.8, y: -1.0)
+            Waypoint(name: 'Bed 2', color: Colors.red, x: 0.8, y: -1.0),
+            Waypoint(name: 'Bed 2', color: Colors.blue, x: -3.5, y: -2.0)
           ]);
 
   initialiseRos() async{
     String ip = await Wifi.ip;
     rosConfig = RosConfig(
       'ros_enabled_device',
-      'http://192.168.100.13:11311', //master ip (change as per laptop, leave port 11311 as it is)
+      botIP,//'http://192.168.100.13:11311', //master ip (change as per laptop, leave port 11311 as it is)
       ip,  //mobile ip (client)
       24125 //port
     );
@@ -78,6 +80,7 @@ class RosBloc implements BaseBloc{
   }
 
   subscribeRosTopics() async{
+    addWaypoints();
     await initialiseRos();
     await initialiseRosTopics();
     await subscribeRosTopicCamera();
@@ -85,7 +88,6 @@ class RosBloc implements BaseBloc{
     await subscribeRosTopicOdometry();
     await subscribeRosTopicMap();
     await publishRosTopicNavigation();
-    addWaypoints();
   }
 
   addWaypoints(){
@@ -93,6 +95,7 @@ class RosBloc implements BaseBloc{
   }
 
   subscribeRosTopicCamera() async{
+    await rosClient.unregister(rosTopicCamera);
     var subCameraImage = await rosClient.subscribe(rosTopicCamera);
     subCameraImage.onValueUpdate.listen((event) {
       imageIn.add(event.data);
@@ -100,6 +103,7 @@ class RosBloc implements BaseBloc{
   }
 
   subscribeRosTopicOdometry() async{
+    await rosClient.unregister(rosTopicOdometry);
     final subOdometery = await rosClient.subscribe(rosTopicOdometry);
     subOdometery.onValueUpdate.listen((event) {
       odometry = event;
@@ -123,6 +127,7 @@ class RosBloc implements BaseBloc{
   }
 
   subscribeRosTopicMap() async{
+    await rosClient.unregister(rosTopicMap);
     var subMapImage = await rosClient.subscribe(rosTopicMap);
     subMapImage.onValueUpdate.listen((event) {
       mapIn.add(event.data);
@@ -132,7 +137,8 @@ class RosBloc implements BaseBloc{
   publishRosTopicNavigation() async{
     await rosClient.unregister(rosTopicNavigation);
     var pubNav = await rosClient.register(rosTopicNavigation,
-    publishInterval: Duration(milliseconds: 500));
+       publishInterval: Duration(milliseconds: 500)
+    );
   }
 
   Future<ui.Image> getMapAsImage(){
@@ -146,16 +152,24 @@ class RosBloc implements BaseBloc{
     return completer.future;
   }
 
-  setActiveWaypoint(Waypoint newWaypoint){
+  setActiveWaypoint(Waypoint newWaypoint) async{
     if(activeWaypoint != newWaypoint){
+      await publishRosTopicNavigation();
       print('x:${newWaypoint.x}\ty:${newWaypoint.y}');
       activeWaypoint = newWaypoint;
-      rosTopicNavigation.msg
-        ..pose.orientation.w = 0
+      // rosTopicNavigation.msg
+      poseStamped
+        ..pose.orientation.w = 1
         ..header.frame_id = 'map'
         ..pose.position.x = newWaypoint.x
         ..pose.position.y = newWaypoint.y;
+      rosClient.unregister(rosTopicNavigation);
     }
+  }
+
+  refresh() async{
+    await rosClient.close();
+    await subscribeRosTopics();
   }
 
   @override

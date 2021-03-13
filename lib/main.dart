@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     Firebase.initializeApp();
-    timer = new Timer(const Duration(seconds: 2), () {
+    timer = new Timer(const Duration(seconds: 3), () {
       afterSplash();
     });
   }

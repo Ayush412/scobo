@@ -20,9 +20,7 @@ class _MapScreenState extends State<MapScreen> {
 
   onRefresh() async{
     bloc.loadingStatusIn.add(true);
-    await rosBloc.subscribeRosTopicMap();
-    await rosBloc.subscribeRosTopicOdometry();
-    await Future.delayed(Duration(seconds: 3));
+    await rosBloc.refresh();
     bloc.loadingStatusIn.add(false);
     rosBloc.addWaypoints();
   }
@@ -37,73 +35,75 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      extendBodyBehindAppBar: false,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Text('Autonomous Navigation', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.black)),
+        actions: [
+          circularProgressIndicator(context),
+          IconButton(
+            icon: Icon(Icons.refresh), 
+            onPressed: ()=> onRefresh(), 
+            color: Colors.black,
+            splashColor: Colors.black,
+            splashRadius: 15
+          ),
+        ],
+      ),
       body: ColorfulSafeArea(
         color: Colors.black,//Color(0xff13a8d0),
-        child: Stack(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
-                image: DecorationImage(image: AssetImage("bkg.jpg"), fit: BoxFit.fill)
-                ),
-            ),
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      circularProgressIndicator(context),
-                      IconButton(
-                        icon: Icon(Icons.refresh), 
-                        onPressed: ()=> onRefresh(), 
-                        color: Colors.white,
-                        splashColor: Colors.grey[400],
-                        splashRadius: 15
+        child: StreamBuilder(
+          stream: rosBloc.mapOut,
+          builder: (context, map){
+            if(map.hasData){
+              return Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.grey[600],
+                child: Column(
+                  children: [
+                    InteractiveViewer(
+                      maxScale: 10,
+                      child: Container(
+                        width: double.infinity,
+                        child: Center(
+                          child: FutureBuilder(
+                            future: rosBloc.getMapAsImage(),
+                            initialData: previousMap,
+                            builder: (context, image) {
+                              if(image.data == null){
+                                return SizedBox();
+                              }
+                              previousMap = image.data;
+                              return Map(map: image.data);
+                            },
+                          ),
+                        ),
                       ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-                    child: StreamBuilder(
-                      stream: rosBloc.mapOut,
-                      builder: (context, map){
-                        if(map.hasData){
-                          return InteractiveViewer(
-                            maxScale: 10,
-                            child: Container(
-                              width: double.infinity,
-                              child: Center(
-                                child: FutureBuilder(
-                                  future: rosBloc.getMapAsImage(),
-                                  initialData: previousMap,
-                                  builder: (context, image) {
-                                    if(image.data == null){
-                                      return SizedBox();
-                                    }
-                                    previousMap = image.data;
-                                    return Map(map: image.data);
-                                  },
-                                ),
-                              ),
-                            ),
-                          );
-                        }
-                        else
-                        return Text('no map');
-                      },
                     ),
-                  ),
-                  Padding(padding: const EdgeInsets.only(top: 100),
-                    child: WaypointShelf(),
+                    Expanded(child: WaypointShelf()),
+                  ],
+                ),
+              );
+            }
+            else
+            return Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Waiting for map...', style: TextStyle(color: Colors.black, fontSize: 20)),
+                  Container(
+                    height: 20, width: 20,
+                    child: SpinKitDoubleBounce(size: 30, color: Colors.blue)
                   )
                 ],
               ),
-            )
-          ]
-        )
+            );
+          },
+        ),
       )
     );
   }

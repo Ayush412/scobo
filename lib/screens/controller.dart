@@ -22,9 +22,7 @@ class _ControllerState extends State<Controller> {
 
   onRefresh() async{
     bloc.loadingStatusIn.add(true);
-    await rosBloc.subscribeRosTopicCamera();
-    await rosBloc.subscribeRosTopicVelocity();
-    await Future.delayed(Duration(seconds: 3));
+    await rosBloc.refresh();
     bloc.loadingStatusIn.add(false);
   }
 
@@ -38,92 +36,77 @@ class _ControllerState extends State<Controller> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      extendBodyBehindAppBar: false,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Text('Manual Control', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.black)),
+        actions: [
+          circularProgressIndicator(context),
+          IconButton(
+            icon: Icon(Icons.refresh), 
+            onPressed: ()=> onRefresh(), 
+            color: Colors.black,
+            splashColor: Colors.black,
+            splashRadius: 15
+          ),
+        ],
+      ),
       body: ColorfulSafeArea(
-        color: Colors.black,//Color(0xff13a8d0),
-        child: Stack(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
-                image: DecorationImage(image: AssetImage("bkg.jpg"), fit: BoxFit.fill)
+        color: Colors.black,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              StreamBuilder(
+                stream: rosBloc.imageOut,
+                builder: (context, image){
+                  if(image.hasData){
+                    return Image.memory(
+                        image.data,
+                        height: MediaQuery.of(context).size.height/2.5,
+                        width: MediaQuery.of(context).size.width,
+                        gaplessPlayback: true,
+                        fit: BoxFit.fill,
+                    );
+                  }
+                  else{
+                    return Container(
+                      height: 250,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Waiting for video...', style: TextStyle(color: Colors.white, fontSize: 20)),
+                            Container(
+                              height: 20, width: 20,
+                              child: SpinKitDoubleBounce(size: 30, color: Colors.blue)
+                            )
+                          ]
+                        )
+                      )
+                    );
+                  }
+                }
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 60),
+                child: Container(
+                  child: Joystick(
+                    baseSize: MediaQuery.of(context).size.height / 3.9,
+                    stickSize: MediaQuery.of(context).size.height / 3.9 * 0.4,
+                    onStickMove: (offset) {
+                      joystickMove(offset, context);
+                    },
+                  ),
                 ),
-            ),
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      circularProgressIndicator(context),
-                      IconButton(
-                        icon: Icon(Icons.refresh), 
-                        onPressed: ()=> onRefresh(), 
-                        color: Colors.white,
-                        splashColor: Colors.grey[400],
-                        splashRadius: 15
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-                    child: StreamBuilder(
-                      stream: rosBloc.imageOut,
-                      builder: (context, image){
-                        if(image.hasData){
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: Image.memory(
-                              image.data,
-                              height: 250,
-                              width: MediaQuery.of(context).size.width,
-                              gaplessPlayback: true,
-                              fit: BoxFit.fill,
-                            )
-                          );
-                        }
-                        else{
-                          return Container(
-                            height: 250,
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text('Waiting for video...', style: TextStyle(color: Colors.white, fontSize: 20)),
-                                  Container(
-                                    height: 20, width: 20,
-                                    child: SpinKitDoubleBounce(size: 30, color: Colors.blue)
-                                  )
-                                ]
-                              )
-                            )
-                          );
-                        }
-                      }
-                    )
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 60),
-                    child: Container(
-                      child: Joystick(
-                        baseSize: MediaQuery.of(context).size.height / 3.9,
-                        stickSize: MediaQuery.of(context).size.height / 3.9 * 0.4,
-                        onStickMove: (offset) {
-                          joystickMove(offset, context);
-                        },
-                      ),
-                    ),
-                  )
-                ]
               )
-            )
-          ]
+            ]
+          )
         )
       ),
     );

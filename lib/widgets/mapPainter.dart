@@ -298,7 +298,7 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
           builder: (context, list) {
             if(list==null || !list.hasData)
               return Container(
-                child: Text('Waiting'),
+                child: Text('Waiting for blips...'),
               );
             else
               return CustomPaint(
